@@ -9,6 +9,14 @@ export default function getFactory() {
     return global[FACTORY_ATTR];
 }
 
+/**
+ * Reset factory unconditionally!
+ * Do not use this in production code, useful for testing.
+ */
+export function resetFactory() {
+    global[FACTORY_ATTR] = new Factory();
+}
+
 class Factory {
     constructor() {
         console.log('Factory instantiated');
