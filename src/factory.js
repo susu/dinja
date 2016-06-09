@@ -28,19 +28,19 @@ class Factory {
         return new injectedClass(...this._getServiceInstances(dependencyList));
     }
 
-    _getServiceInstances(dependencyList) {
-        let services = [];
-        for (const serviceName of dependencyList) {
-            services.push(this._getService(serviceName));
-        }
-        return services;
-    }
-
-    _getService(serviceName) {
+    getService(serviceName) {
         if (!(serviceName in this._services)) {
             const serviceFactory = this._serviceFactories[serviceName];
             this._services[serviceName] = serviceFactory();
         }
         return this._services[serviceName];
+    }
+
+    _getServiceInstances(dependencyList) {
+        let services = [];
+        for (const serviceName of dependencyList) {
+            services.push(this.getService(serviceName));
+        }
+        return services;
     }
 }
