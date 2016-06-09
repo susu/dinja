@@ -3,6 +3,18 @@ import {service, getFactory, dependencies} from '../src/index';
 import {expect} from 'chai';
 
 describe('service', () => {
+
+    it('can be used without decorator syntax', () => {
+        class FooService {
+            getFoo() { return 'foo'; }
+        }
+
+        service('FooService')(FooService);
+
+        const fooInstance = getFactory().getService('FooService');
+        expect(fooInstance.getFoo()).to.equal('foo');
+    });
+
     it('can inject service into other service', () => {
 
         @service(['FooService'])
