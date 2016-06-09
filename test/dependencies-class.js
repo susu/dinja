@@ -1,8 +1,4 @@
-//
-// This file tests the package public API. Also serves as examples.
-//
 
-// NOTE: all local imports should be from '../src/index'!
 import {dependencies, getFactory, service} from '../src/index';
 import {expect} from 'chai';
 
@@ -13,7 +9,7 @@ describe('getFactory', () => {
     });
 });
 
-describe('dependencies decorator', () => {
+describe('dependencies decorator for classes', () => {
 
     it('can inject a service into a class constructor', () => {
 
@@ -37,5 +33,9 @@ describe('dependencies decorator', () => {
 
         const barInstance = getFactory().create(Bar);
         expect(barInstance.getText()).to.equal('foobartext');
+    });
+
+    it('does not harm class constructor, so it can be instantiated without factory', () => {
+        // TODO
     });
 });
