@@ -24,24 +24,34 @@ class Factory {
         this._serviceFactories = {};
     }
 
-    registerService(serviceName, serviceFactory) {
-        this._serviceFactories[serviceName] = serviceFactory;
+    registerService(serviceName, serviceClass, serviceProvider = null) {
+        console.log(`Registering service: ${serviceName}`);
+        this._serviceFactories[serviceName] = [serviceClass, serviceProvider];
     }
 
     create(injectedClass) {
         console.log(`Factory.create: "${injectedClass.name}", ` +
                 `dependencies: ${getDependencyList(injectedClass)}`);
 
-        const dependencyList = getDependencyList(injectedClass);
-        return new injectedClass(...this._getServiceInstances(dependencyList));
+        return new injectedClass(...this._getServiceInstancesForClass(injectedClass));
     }
 
     getService(serviceName) {
         if (!(serviceName in this._services)) {
-            const serviceFactory = this._serviceFactories[serviceName];
-            this._services[serviceName] = serviceFactory();
+            const [serviceClass, provider] = this._serviceFactories[serviceName];
+            console.log(`Creating service: ${serviceName}`);
+
+            if (provider !== null)
+                this._services[serviceName] = provider(...this._getServiceInstancesForClass(serviceClass));
+            else
+                this._services[serviceName] = this.create(serviceClass);
         }
         return this._services[serviceName];
+    }
+
+    _getServiceInstancesForClass(injectedClass) {
+        const dependencyList = getDependencyList(injectedClass);
+        return this._getServiceInstances(dependencyList);
     }
 
     _getServiceInstances(dependencyList) {

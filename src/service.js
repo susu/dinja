@@ -1,9 +1,9 @@
 
 import getFactory from './factory';
 
-export default function service(serviceName) {
+export default function service(serviceName, serviceProvider = null) {
     return (target, property, descriptor) => {
-        getFactory().registerService(serviceName, () => new target());
+        getFactory().registerService(serviceName, target, serviceProvider);
         console.log(`Service registered: "${serviceName}"`);
     }
 }

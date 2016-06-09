@@ -15,6 +15,8 @@ export default function dependencies(dependencyList) {
 }
 
 export function getDependencyList(target) {
+    if (!(DEPENDENCY_LIST_ATTR in target))
+        return [];
     return target[DEPENDENCY_LIST_ATTR];
 }
 
