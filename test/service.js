@@ -17,12 +17,12 @@ describe('service', () => {
 
     it('can inject service into other service', () => {
 
-        @service(['FooService'])
+        @service('FooService')
         class FooService {
             getFoo() { return 'foo'; }
         }
 
-        @service(['BarService'])
+        @service('BarService')
         @dependencies(['FooService'])
         class BarService {
             constructor(fooService) { this._foo = fooService; }
@@ -37,7 +37,7 @@ describe('service', () => {
 
         const serviceProvider = () => new FooService('foo', 'bar');
 
-        @service(['FooService'], serviceProvider)
+        @service('FooService', serviceProvider)
         class FooService {
             constructor(custom, parameters) {
                 expect(custom).to.equal('foo');
