@@ -1,6 +1,6 @@
 {
   "name": "dinja",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Dinja, a dependency injection library for ES6",
   "main": "dist/index.js",
   "scripts": {
