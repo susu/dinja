@@ -1,16 +1,20 @@
 
 import React from 'react';
 import getFactory from './factory';
+import {log} from './debug';
 
 const DEPENDENCY_LIST_ATTR = '__dinjaDeps__';
 
 export default function dependencies(dependencyList) {
-    return (target, property, descriptor) => {
-        console.log(`Injecting "${target.name}" with: ${dependencyList}`);
+    log(`Dependencies deco: ${dependencyList}`);
+    return (target) => {
+        log(`Injecting "${target.name}" with: ${dependencyList}`);
         target[DEPENDENCY_LIST_ATTR] = dependencyList;
 
         if (isReactComponentClass(target))
             return createWrapperComponent(target);
+
+        return target;
     }
 }
 
@@ -24,6 +28,7 @@ function createWrapperComponent(target) {
     // need to use HOC (Higher Order Component) for injection
     return class extends React.Component {
         render() {
+            log('HOC! ', target);
             const mergedProps = Object.assign({},
                 getDependenciesAsReactProps(getDependencyList(target), Object.keys(this.props)),
                 this.props

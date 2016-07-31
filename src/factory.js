@@ -1,5 +1,6 @@
 
 import {getDependencyList} from './dependencies';
+import {log} from './debug';
 
 const FACTORY_ATTR = '__dinjaFactory__';
 
@@ -19,27 +20,32 @@ export function resetFactory() {
 
 class Factory {
     constructor() {
-        console.log('Factory instantiated');
+        log('Factory instantiated');
         this._services = {};
         this._serviceFactories = {};
     }
 
     registerService(serviceName, serviceClass, serviceProvider = null) {
-        console.log(`Registering service: ${serviceName}`);
+        log(`Registering service: ${serviceName}`);
         this._serviceFactories[serviceName] = [serviceClass, serviceProvider];
     }
 
     create(injectedClass) {
-        console.log(`Factory.create: "${injectedClass.name}", ` +
+        log(`Factory.create: "${injectedClass.name}", ` +
                 `dependencies: ${getDependencyList(injectedClass)}`);
 
         return new injectedClass(...this._getServiceInstancesForClass(injectedClass));
     }
 
     getService(serviceName) {
+        log(`Getting service: ${serviceName}`);
         if (!(serviceName in this._services)) {
+            if (!(serviceName in this._serviceFactories)) {
+                log(`!!! NO SERVICE REGISTERED: ${serviceName}`);
+                throw new Error(`No service registered: ${serviceName}`);
+            }
             const [serviceClass, provider] = this._serviceFactories[serviceName];
-            console.log(`Creating service: ${serviceName}`);
+            log(`Creating service: ${serviceName}`);
 
             if (provider !== null)
                 this._services[serviceName] = provider(...this._getServiceInstancesForClass(serviceClass));
