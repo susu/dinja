@@ -22,6 +22,10 @@ export function inject(serviceName) {
     return getFactory().getService(serviceName);
 }
 
+export function create(targetClass) {
+    return getFactory().create(targetClass);
+}
+
 class Factory {
     constructor() {
         log('Factory instantiated');

@@ -1,5 +1,5 @@
 
-import {service, getFactory, dependencies} from '../src/index';
+import {service, inject, dependencies} from '../src/index';
 import {expect} from 'chai';
 
 describe('service', () => {
@@ -11,7 +11,7 @@ describe('service', () => {
 
         service('FooService')(FooService);
 
-        const fooInstance = getFactory().getService('FooService');
+        const fooInstance = inject('FooService');
         expect(fooInstance.getFoo()).to.equal('foo');
     });
 
@@ -29,7 +29,7 @@ describe('service', () => {
             getBar() { return this._foo.getFoo() + 'bar'; }
         }
 
-        const barInstance = getFactory().getService('BarService');
+        const barInstance = inject('BarService');
         expect(barInstance.getBar()).to.equal('foobar');
     });
 
@@ -45,7 +45,7 @@ describe('service', () => {
             }
         }
 
-        getFactory().getService('FooService');
+        inject('FooService');
     });
 
     it('allow custom provider when dependencies defined', () => {
@@ -73,7 +73,7 @@ describe('service', () => {
             }
         }
 
-        const barInstance = getFactory().getService('BarService');
+        const barInstance = inject('BarService');
         expect(barInstance.getBar()).to.equal('foobarbaz');
     });
 });

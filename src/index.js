@@ -1,11 +1,11 @@
 import dependencies from './dependencies';
-import getFactory, {resetFactory, inject} from './factory';
+import {create, resetFactory, inject} from './factory';
 import service from './service';
 import {enableDebug, disableDebug} from './debug';
 
 module.exports = {
     dependencies,
-    getFactory,
+    create,
     inject,
     service,
     resetFactory,

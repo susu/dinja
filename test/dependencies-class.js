@@ -1,13 +1,6 @@
 
-import {dependencies, getFactory, service} from '../src/index';
+import {dependencies, create, service} from '../src/index';
 import {expect} from 'chai';
-
-describe('getFactory', () => {
-    it('returns something', () => {
-        const factory = getFactory();
-        expect(factory).to.not.be.undefined;
-    });
-});
 
 describe('dependencies decorator for classes', () => {
 
@@ -31,7 +24,7 @@ describe('dependencies decorator for classes', () => {
             }
         }
 
-        const barInstance = getFactory().create(Bar);
+        const barInstance = create(Bar);
         expect(barInstance.getText()).to.equal('foobartext');
     });
 
