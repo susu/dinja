@@ -44,7 +44,7 @@ class Bar {
 
 // Instantiate bar; FooService will be instantiated lazily in the background,
 // and injected to Bar.
-let bar = getFactory().create(Bar);
+let bar = create(Bar);
 bar.doBar();
 ```
 
@@ -118,3 +118,40 @@ render() {
 }
 
 ```
+
+API reference
+-------------
+
+### `dependencies(deps: Array<string>)(targetClass)`
+
+Defines dependencies for a class.
+Designed to be used as a decorator.
+
+### `service(serviceName: string, serviceProvider: ((...deps) => T) = null)(targetClass)`
+
+Registers `targetClass` as a service by name `serviceName`.
+Designed to be used as a decorator.
+
+`serviceProvider` is a function, that creates a service instance of targetClass.
+If the service has dependencies, those are passed to the function.
+
+### `inject(serviceName: string): T`
+
+Returns the instance of the service defined by `serviceName`.
+
+### `create(targetClass): T`
+
+Creates a new instance of `targetClass` with `@dependencies` injected.
+
+### `resetFactory()`
+
+Resets the whole factory, meaning all services, serviceProviders will be deleted.
+Useful for testing.
+
+### `enableDebug()`
+
+Enables debug logging to console.
+
+### `disableDebug()`
+
+Disables debug logging to console.
