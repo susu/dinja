@@ -18,6 +18,10 @@ export function resetFactory() {
     global[FACTORY_ATTR] = new Factory();
 }
 
+export function inject(serviceName) {
+    return getFactory().getService(serviceName);
+}
+
 class Factory {
     constructor() {
         log('Factory instantiated');
